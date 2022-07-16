@@ -20,7 +20,7 @@ except:
 
 VERSION = "1.1.0"
 IP = "10.0.0.126"
-PORT = 5051
+PORT = 5050
 ADDR = (IP, PORT)
 
 slave = None
