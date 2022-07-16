@@ -19,7 +19,7 @@ except:
     os.system("pip install psutil")
 
 VERSION = "1.1.0"
-IP = "10.0.0.126"
+IP = "!PLEASE ENTER YOUR DEVICE's IPv4 ADDRESS!"
 PORT = 5050
 ADDR = (IP, PORT)
 
