@@ -31,8 +31,7 @@ Here is a step by step instruction guide on how to operate this program:
 PC Flayer is currently in version 1.1.0, if your master.py is outdated, please download this file as a zip again and use the new one downloaded instead of old one. If slave.pyw is outdated, please follow instructions below how to update slave.pyw without getting out of your seat.
 
 # Updating slave.pyw on target computer
-Any PC Flayer above version 1.1.2 is able to auto update
-Follow this step by step instruction to update slave.pyw without having to modify the file on target computer directly:
+Any PC Flayer above version 1.1.2 is able to auto update. Follow this step by step instruction to update slave.pyw without having to modify the file on target computer directly:
 1. Download a new PC Flayer file as a zip file.
 2. Extract zip file to whichever location of your choice.
 3. Change the slave.pyw file name to update.py (If you are having trouble making the .pyw into a .py file, search for an online converter or rename it using visual studio code. For more info, view [this](https://stackoverflow.com/questions/31682903/how-can-i-change-a-py-file-to-pyw))
